@@ -3,6 +3,8 @@
 //
 
 #include "../Courses/courseFunc.h"
+#include <string>
+#include <iostream>
 
 using namespace std;
 
@@ -62,33 +64,79 @@ string Student::getCourse(int courseNum) {
     if (courseNum != 0 || courseNum >= numCourses || courseList == nullptr) {
         return string();
     } else {
-        return courseList[courseNum];
+        return courseList[courseNum-1];
     }
 }
 
 void Student::outputInfo() {
-
+    cout << "Reading information for: " + this->Name << endl;
+    cout << "\nNumber of Courses: " + to_string(this->numCourses) << endl;
+    for (int i = 0; i < this->numCourses; i++) {
+        cout << "Course " + to_string((i+1)) + ": " + this->courseList[i] + "\n" << endl;
+    }
 }
+
 
 void Student::addCourse(const std::string& course) {
-
+    string* newList = new string[numCourses + 1];
+    for (int i = 0; i < numCourses; i++) {
+        newList[i] = courseList[i];
+    }
+    newList[numCourses] = course;
+    delete[] courseList;
+    courseList = newList;
+    numCourses++;
 }
+
 void Student::removeCourse(const std::string& course) {
+    if (numCourses == 0 || courseList == nullptr) return;
 
-}
-void Student::setName(const std::string& name) {
+    int location = -1;
+    for (int i = 0; i < numCourses; i++) {
+        if (courseList[i] == course) {
+            location = i;
+            break;
+        }
+    }
+    if (location == -1) return;
 
+    string* newList = nullptr;
+    if (numCourses -1 > 0) {
+        newList = new string[numCourses -1];
+        for (int i = 0, j = 0; i < numCourses; i++) {
+            if (i == location) continue;
+            newList[j++] = courseList[i];
+        }
+    }
+    delete[] courseList;
+    courseList = newList;
+    --numCourses;
 }
+
 
 
 //Private methods:
 
 void Student::freeCourses() {
-
+    if (courseList != nullptr) {
+        delete[] courseList;
+        courseList = nullptr;
+    }
+    numCourses = 0;
 }
 
 void Student::copyFrom(const Student& copy) {
-
+    if (copy.numCourses > 0 && copy.courseList != nullptr) {
+        courseList = new string[copy.numCourses];
+        for (int i = 0; i < copy.numCourses; i++) {
+            courseList[i] = copy.courseList[i];
+        }
+        numCourses = copy.numCourses;
+    }
+    else {
+        courseList = nullptr;
+        numCourses = 0;
+    }
 }
 
 
