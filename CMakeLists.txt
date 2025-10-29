@@ -3,4 +3,5 @@ project(Courses)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(Courses main.cpp)
+add_executable(Courses main.cpp functions.cpp
+        functions.cpp)

@@ -67,7 +67,7 @@ int Student::getNumCourses() const {
 }
 
 string Student::getCourse(int courseNum) {
-    if (courseNum != 0 || courseNum >= numCourses || courseList == nullptr) {
+    if (courseNum != 0 || courseNum > numCourses || courseList == nullptr) {
         return string();
     } else {
         return courseList[courseNum-1];
@@ -75,15 +75,30 @@ string Student::getCourse(int courseNum) {
 }
 
 void Student::outputInfo() {
-    cout << "Reading information for: " + this->Name << endl;
-    cout << "\nNumber of Courses: " + to_string(this->numCourses) << endl;
+    cout << "\n\nReading information for: " + this->Name << endl;
+    cout << "Number of Courses: " + to_string(this->numCourses) << endl;
     for (int i = 0; i < this->numCourses; i++) {
-        cout << "Course " + to_string((i+1)) + ": " + this->courseList[i] + "\n" << endl;
+        cout << "Course " + to_string((i+1)) + ": " + this->courseList[i] << endl;
     }
 }
 
+//AI recommendation, unsure if keeping
+void Student::print(std::ostream& os) const {
+    os << "\nName: " << Name << "\n";
+    os << "Number of Courses: " << numCourses << "\n";
+    for (int i = 0; i < numCourses; i++) {
+        os << " - " << courseList[i] << "\n";
+    }
+    cout << "\n";
+}
 
-void Student::addCourse(const std::string& course) {
+std::ostream& operator<<(std::ostream& os, const Student& s) {
+    s.print(os);
+    return os;
+}
+
+
+std::string Student::addCourse(const std::string& course) {
     string* newList = new string[numCourses + 1];
     for (int i = 0; i < numCourses; i++) {
         newList[i] = courseList[i];
@@ -92,10 +107,11 @@ void Student::addCourse(const std::string& course) {
     delete[] courseList;
     courseList = newList;
     numCourses++;
+    return "Course Added\n\n";
 }
 
-void Student::removeCourse(const std::string& course) {
-    if (numCourses == 0 || courseList == nullptr) return;
+string Student::removeCourse(const std::string& course) {
+    if (numCourses == 0 || courseList == nullptr) return "No Courses Present\n\n";
 
     int location = -1;
     for (int i = 0; i < numCourses; i++) {
@@ -104,7 +120,7 @@ void Student::removeCourse(const std::string& course) {
             break;
         }
     }
-    if (location == -1) return;
+    if (location == -1) return "Course Not Present\n\n";
 
     string* newList = nullptr;
     if (numCourses -1 > 0) {
@@ -117,6 +133,7 @@ void Student::removeCourse(const std::string& course) {
     delete[] courseList;
     courseList = newList;
     --numCourses;
+    return "Course Removed\n\n";
 }
 
 
@@ -132,6 +149,7 @@ void Student::freeCourses() {
 }
 
 void Student::copyFrom(const Student& copy) {
+    Name = copy.Name;
     if (copy.numCourses > 0 && copy.courseList != nullptr) {
         courseList = new string[copy.numCourses];
         for (int i = 0; i < copy.numCourses; i++) {

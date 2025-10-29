@@ -6,6 +6,7 @@
 #define COURSES_COURSEFUNC_H
 
 #include <string>
+#include <iostream>
 
 
 
@@ -21,10 +22,12 @@ public:
 
     //"Print" Function for output of student information
     void outputInfo();
+    void print(std::ostream& os = std::cout) const;
+    friend std::ostream& operator<<(std::ostream& os, const Student& s);
 
     //Mutators
-    void addCourse(const std::string& course);
-    void removeCourse(const std::string& course);
+    std::string addCourse(const std::string& course);
+    std::string removeCourse(const std::string& course);
     void setName(const std::string& name);
 
     //Accessors
