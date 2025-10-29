@@ -13,9 +13,13 @@ int main () {
     cout << "Student Courses Program" << endl;
     cout <<"\n===================================================\n\n" << endl;
 
-    Student s;
     Student other;
     bool running = true;
+
+    string name;
+    cout << "Create Student: ";
+    getline(cin, name);
+    Student s = Student(name);
 
     string select;
     while (running) {
@@ -63,7 +67,7 @@ int main () {
                     break;
                 }
                 case 5: {
-                    s = Student();
+                    s.reset();
                     break;
                 }
                 case 6: {
@@ -91,14 +95,11 @@ int main () {
                     break;
                 }
             }
-
         } catch (...) {
             cout << "Invalid entry type, please try again" << endl;
             continue;
         }
-
     }
-
     return 0;
 }
 

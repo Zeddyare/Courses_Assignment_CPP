@@ -15,7 +15,6 @@ class Student {
 public:
     //Constructors
     Student();
-    Student(std::string name, int courseCt, std::string* courseLs);
     explicit Student(const std::string& name);
     Student(const Student& copy);
     Student& operator = (const Student& copy);
@@ -31,12 +30,12 @@ public:
     void setName(const std::string& name);
 
     //Accessors
-    std::string getName();
-    int getNumCourses() const;
-    std::string getCourse(int courseNum);
+    // std::string getName() const;
+    // int getNumCourses() const;
+    // std::string getCourse(int courseNum) const;
 
     //Destructor
-    ~Student();
+    void reset();
 
 private:
     std::string Name;

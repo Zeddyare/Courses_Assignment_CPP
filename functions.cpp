@@ -13,21 +13,6 @@ using namespace std;
 Student::Student()
     : Name(""), numCourses(0), courseList(nullptr){};
 
-Student::Student(string name, int courseCt, string *courseLs)
-    : Name(move(name)), numCourses(0), courseList(nullptr)
-{
-    if (courseCt != 0 && courseLs != nullptr) {
-        courseList = new string[courseCt];
-        for (int i = 0; i < courseCt; i++) {
-            courseList[i] = courseLs[i];
-            numCourses = courseCt;
-        }
-    }
-}
-
-
-
-//AI Recommendation:
 Student::Student(const string& name)
     : Name(name), numCourses(0), courseList(nullptr) {}
 
@@ -49,30 +34,33 @@ Student::Student(const Student& copy)
 }
 
 
-Student::~Student() {
+void Student::reset() {
     freeCourses();
 }
 
-string Student::getName() {
-    return Name;
-}
+
+// string Student::getName() const {
+//     return Name;
+// }
+
+// int Student::getNumCourses() const {
+//     return numCourses;
+// }
+
+// string Student::getCourse(int courseNum) const {
+//     if (courseNum != 0 || courseNum > numCourses || courseList == nullptr) {
+//         return string();
+//     } else {
+//         return courseList[courseNum-1];
+//     }
+// }
 
 void Student::setName(const std::string &name) {
     Name = name;
 }
 
 
-int Student::getNumCourses() const {
-    return numCourses;
-}
 
-string Student::getCourse(int courseNum) {
-    if (courseNum != 0 || courseNum > numCourses || courseList == nullptr) {
-        return string();
-    } else {
-        return courseList[courseNum-1];
-    }
-}
 
 void Student::outputInfo() {
     cout << "\n\nReading information for: " + this->Name << endl;
@@ -82,14 +70,14 @@ void Student::outputInfo() {
     }
 }
 
-//AI recommendation, unsure if keeping
+//AI recommendation
 void Student::print(std::ostream& os) const {
     os << "\nName: " << Name << "\n";
     os << "Number of Courses: " << numCourses << "\n";
     for (int i = 0; i < numCourses; i++) {
         os << " - " << courseList[i] << "\n";
     }
-    cout << "\n";
+    os << "\n";
 }
 
 std::ostream& operator<<(std::ostream& os, const Student& s) {
