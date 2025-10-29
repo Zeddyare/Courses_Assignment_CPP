@@ -42,6 +42,12 @@ Student &Student::operator=(const Student &copy) {
     }
 }
 
+Student::Student(const Student& copy)
+    : Name(""), numCourses(0), courseList(nullptr)
+{
+    copyFrom(copy);
+}
+
 
 Student::~Student() {
     freeCourses();
